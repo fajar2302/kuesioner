@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Form Input HTML</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <button id="add-input">Tambah Input</button>
+    <form id="my-form">
+        <input type="text" id="addForm" name="input-form"><br>
+        <div id="input-container"></div>
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        $(document).ready(function () {
+
+            $('#add-input').click(function () {
+                let inputCount = parseInt($('#addForm').val());
+                let inputHtml = '';
+                // var inputHtml = '<input type="text" name="input' + inputCount + '"><br>';
+                for (let i = 0; i < inputCount; i++) {
+                    inputHtml += ` 
+                                      <div class="mb-3">
+                                        <input type="text" class="form-control jmlh" id="exampleInputText3" name="input${i}" >
+                                      </div>
+                                    `;
+
+                }
+                $('#input-container').html(inputHtml);
+            });
+
+            $('#my-form').submit(function (e) {
+                e.preventDefault();
+
+                var formData = $(this).serializeArray();
+                console.log(formData);
+                // Lakukan apa yang Anda inginkan dengan data formulir, misalnya, kirim ke server
+
+                // Reset form input
+                $(this)[0].reset();
+                $('#input-container').empty();
+                inputCount = 1;
+            });
+        });
+    </script>
+</body>
+
+</html>

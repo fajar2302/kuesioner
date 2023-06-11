@@ -1,0 +1,48 @@
+html,
+body {
+  height: 100%;
+  background-color: #225181;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 16px;
+}
+
+.global-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #edf0f9;
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 700px;
+}
+
+.login-form {
+  width: 600px;
+  height: 670px;
+  padding: 20px;
+  border-radius: 20px;
+  background-color: #71a8a4;
+  box-shadow: 13px 13px 20px #4e4646, -13px -13px 20px #4e4646;
+}
+
+.valid {
+  color: green;
+  font-size: 12px;
+}
+
+.invalid {
+  color: rgba(156, 46, 46, 0.774);
+  font-size: 12px;
+}
+
+#showPassword {
+  font-size: 12px;
+}
+
+.col-6 a {
+  text-decoration: none;
+  color: #edf0f9;
+  border: 1px solid #225181;
+  padding: 2px;
+  background-color: #225181;
+}
