@@ -1,0 +1,10 @@
+ALUR APLIKASI
+Admin
+1.	Menambahkan kuesioner
+2.	Mengelola data kuesioner
+3.	Menguji pertanyaan kuesioner
+4.	Perlu login
+5.	Cetak grafik berdasarkan hasil responden
+Pengguna
+1.	Mengisi kuesioner
+2.	Melihat dan memilih daftar kuesioner
