@@ -8,6 +8,7 @@
     <div class="mb-3">
         <label for="exampleInputText2" class="form-label">Lokasi</label>
         <input type="text" class="form-control lokasi" id="exampleInputText2" name="lokasi">
+        <input type="hidden" class="status" id="exampleInputText2" name="status" value="tidakAktif">
     </div>
     <div class="mb-3">
         <label for="exampleInputText3" class="form-label">Tahun</label>
@@ -17,7 +18,7 @@
             $tahun = date('Y');
             for ($i = 0; $i < 10; $i++) {
             ?>
-            <option value="<?= $tahun - $i; ?>"><?= $tahun - $i; ?></option>
+                <option value="<?= $tahun - $i; ?>"><?= $tahun - $i; ?></option>
             <?php
             }
             ?>
@@ -28,49 +29,50 @@
     </div>
 </form>
 <script>
-$(document).ready(function() {
+    $(document).ready(function() {
 
-    // FUNGSI KETIKA MEMASUKKAN DATA
-    $('#form-data').submit(function(e) {
-        e.preventDefault();
+        // FUNGSI KETIKA MEMASUKKAN DATA
+        $('#form-data').submit(function(e) {
+            e.preventDefault();
 
-        let form = $('.form-control').val();
-        let select = $('.form-select').val();
+            let judul = $('#exampleInputText1').val();
+            let lokasi = $('#exampleInputText2').val();
+            let select = $('.form-select').val();
+            if (judul != "" && lokasi != "" && select != "") {
+                let data = $(this).serialize();
+                $.post('kuisioner/proses-input.php', 'simpan=&' + data, function(respon) {
+                    var pecah = respon.split('|');
 
-        if (form != "" && select != "") {
-            let data = $(this).serialize();
-            $.post('kuisioner/proses-input.php', 'simpan=&' + data, function(respon) {
-                var pecah = respon.split('|');
+                    if (pecah[0] == "success") {
+                        $('#modalTittle').html(pecah[1] + '-' + pecah[2]);
+                        $('.btn-close').remove();
+                        let id = pecah[1];
+                        $.post(
+                            'kuisioner/form-2.php', {
+                                id: id,
+                                data: data,
+                            },
+                            function(respon) {
+                                $('#bdModalKuisioner').html(respon);
+                                $('#headerModal').removeClass();
+                                $('#headerModal').addClass('modal-header bg-custom text-white')
+                            }
+                        );
+                    }
+                })
 
-                if (pecah[0] == "success") {
-                    $('#modalTittle').html(pecah[1] + '-' + pecah[2]);
-                    $('.btn-close').remove();
-                    let id = pecah[1];
-                    $.post(
-                        'kuisioner/form-2.php', {
-                            id: id,
-                        },
-                        function(respon) {
-                            $('#bdModalKuisioner').html(respon);
-                            $('#headerModal').removeClass();
-                            $('#headerModal').addClass('modal-header bg-custom text-white')
-                        }
-                    );
-                }
-            })
+            } else {
 
-        } else {
+                Swal.fire({
+                    position: 'top',
+                    icon: 'error',
+                    text: 'Silahkan Lengkapi Form',
+                });
+                $('.name').addClass('border border-danger ');
+                $('.lokasi').addClass('border border-danger ');
+                $('.form-select').addClass('border border-danger');
+            }
 
-            Swal.fire({
-                position: 'top',
-                icon: 'error',
-                text: 'Silahkan Lengkapi Form',
-            });
-            $('.name').addClass('border border-danger ');
-            $('.lokasi').addClass('border border-danger ');
-            $('.form-select').addClass('border border-danger');
-        }
-
+        })
     })
-})
 </script>

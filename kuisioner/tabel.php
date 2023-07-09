@@ -48,7 +48,7 @@ if (mysqli_num_rows($result) > 0) {
             </div>
             <div class="modal-body pt-1 pb-0" id="bdModalKuisioner"></div>
             <div class="modal-footer mt-3">
-                <p style="color:#777474;">&copy; <?php echo date("Y") ?> DarrellHF</p>
+                <p style="color:#777474;">&copy; <?php echo date("Y") ?> Febrian</p>
             </div>
         </div>
     </div>
@@ -64,31 +64,17 @@ $(document).ready(function() {
     // fungsi ketika klik buka
     $('.open').on('click', function(e) {
         e.preventDefault();
+
         let data = $(this).attr('open-id');
         let pisah = data.split('|');
         let id = pisah[0];
-        let judul = pisah[1];
-        $('#modalShow').modal('show');
-        $('#modalTittle').html(id + '-' + judul);
-        // alert(id);
-        $.post('kuisioner/proses-input.php', 'open=' + id
-            // $.post('kuisioner/form-2.php', {
-            //     id: id,
-            ,
-            function(respon) {
-                let data = respon;
+        $.post('kuisioner/pertanyaan/pertanyaan.php', {
+            id: id,
+        }, function(response) {
+            $('#menu-kuisioner').html(response);
+        })
 
-                $.post('kuisioner/form-2.php', {
-                    data: data,
-                    id: id
-                }, function(response) {
-                    $('#bdModalKuisioner').html(response);
-                    $('#headerModal').removeClass();
-                    $('#headerModal').addClass('modal-header bg-custom text-white');
-                })
-            });
-
-    });
+    })
 
     // fungsi ketika klik hapus
     $('.hapus').on('click', function(e) {

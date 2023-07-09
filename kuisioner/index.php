@@ -6,7 +6,8 @@
 </div>
 
 <div class="row-justify-content-center ">
-    <button type="button" class="btn  mx-3 my-3" id="callModalAddKuisioner" data-toggle="tooltip" data-placement="top" title="Tambah data baru"><i class="fas fa-plus"></i> Tambah Kuisioner</button>
+    <button type="button" class="btn  mx-3 my-3" id="callModalAddKuisioner" data-toggle="tooltip" data-placement="top"
+        title="Tambah data baru"><i class="fas fa-plus"></i> Tambah Kuisioner</button>
     <!-- modals -->
     <div class="modal mt-4 mx-auto" tabindex="-1" id="modalShow" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog">
@@ -17,7 +18,7 @@
                 </div>
                 <div class="modal-body pt-1 pb-0" id="bdModalKuisioner"></div>
                 <div class="modal-footer bg-custom mt-3">
-                    <p style="color:#777474;">&copy; <?php echo date("Y") ?> DarrellHF</p>
+                    <p style="color:#777474;">&copy; <?php echo date("Y") ?>Febrian</p>
                 </div>
             </div>
         </div>
@@ -35,22 +36,22 @@
 </div>
 
 <script>
-    $(document).ready(function() {
+$(document).ready(function() {
 
-        // LOAD TABEL
-        $('#load-tabel').load('kuisioner/tabel.php');
+    // LOAD TABEL
+    $('#load-tabel').load('kuisioner/tabel.php');
 
-        // LOAD FORM INPUT
-        $('#callModalAddKuisioner').on('click', function(event) {
-            event.preventDefault();
-            $('#modalShow').modal('show');
-            $('#modalTittle').html('Tambah Data Baru');
-            $('#bdModalKuisioner').text('loading...');
-            $('#bdModalKuisioner').load('kuisioner/form-input.php');
-            $('#headerModal').removeClass();
-            $('#headerModal').addClass('modal-header bg-custom text-white');
-        });
+    // LOAD FORM INPUT
+    $('#callModalAddKuisioner').on('click', function(event) {
+        event.preventDefault();
+        $('#modalShow').modal('show');
+        $('#modalTittle').html('Tambah Data Baru');
+        $('#bdModalKuisioner').text('loading...');
+        $('#bdModalKuisioner').load('kuisioner/form-input.php');
+        $('#headerModal').removeClass();
+        $('#headerModal').addClass('modal-header bg-custom text-white');
+    });
 
 
-    })
+})
 </script>
