@@ -34,6 +34,9 @@ if (mysqli_num_rows($query) > 0) {
                                 </th>
                                 <th class="text-center" scope="col" rowspan="1" colspan="4">Presepsi</th>
                                 <th class="text-center" scope="col" rowspan="1" colspan="4">Harapan</th>
+                                <th class="text-center" scope="col" rowspan="2">
+                                    <p>Opsi</p>
+                                </th>
                             </tr>
                             <tr class="">
                                 <th>1</th>
@@ -49,20 +52,24 @@ if (mysqli_num_rows($query) > 0) {
                         <tbody>
                             <?php
                             $input = 0;
+                            $class = 1;
                             $rows = mysqli_num_rows($join);
                             if ($rows > 0) {
                                 for ($i = 0; $i < $rows; $i++) {
                                     $data = mysqli_fetch_assoc($join);
                                     $jenis = $data['jenis_kuisioner'];
                                     $id_jenis = $data['id_jenisKuisioner'];
+                                    $id_judul = $data['judul_id'];
                                     $newQuery = mysqli_query($koneksi, "SELECT * FROM tb_pertanyaan WHERE judul_id = '$id' AND jeniskuisioner_id = '$id_jenis'");
                                     $totRows = mysqli_num_rows($newQuery);
                                     $no++;
+
                             ?>
 
                             <tr>
-                                <td colspan="10"> <?= $jenis; ?></td>
-                                <input type="hidden" name="jenis-kuisioner" value="<?= $jenis; ?>">
+                                <td colspan="11"> <?= $jenis; ?></td>
+                                <input type="hidden" name="id-jenis" value="<?= $id_jenis; ?>">
+                                <input type="hidden" name="id-judul" value="<?= $id_judul; ?>">
                                 <?php $no--; ?>
                             </tr>
 
@@ -73,40 +80,46 @@ if (mysqli_num_rows($query) > 0) {
                                 <td><?= $no; ?></td>
                                 <td class="kuis"><?= $newRows['item_pertanyaan'] ?></td>
                                 <td>
-                                    <input class="form-check-input" type="radio" name="pertanyaanA<?= $input; ?>"
-                                        id="pilihan" value="1">
+                                    <input class="form-check-input presepsi border border-secondary" type="radio"
+                                        name="pertanyaanA<?= $input; ?>" id="pilihan" value="1">
                                 </td>
                                 <td>
-                                    <input class="form-check-input" type="radio" name="pertanyaanA<?= $input; ?>"
-                                        id="pilihan" value="2">
+                                    <input class="form-check-input presepsi border border-secondary" type="radio"
+                                        name="pertanyaanA<?= $input; ?>" id="pilihan" value="2">
                                 </td>
                                 <td>
-                                    <input class="form-check-input" type="radio" name="pertanyaanA<?= $input; ?>"
-                                        id="pilihan" value="3">
+                                    <input class="form-check-input presepsi border border-secondary" type="radio"
+                                        name="pertanyaanA<?= $input; ?>" id="pilihan" value="3">
                                 </td>
                                 <td>
-                                    <input class="form-check-input" type="radio" name="pertanyaanA<?= $input; ?>"
-                                        id="pilihan" value="4">
+                                    <input class="form-check-input presepsi border border-secondary" type="radio"
+                                        name="pertanyaanA<?= $input; ?>" id="pilihan" value="4">
                                 </td>
                                 <td>
-                                    <input class="form-check-input" type="radio" name="pertanyaanB<?= $input; ?>"
-                                        id="pilihan" value="1">
+                                    <input class="form-check-input border border-secondary" type="radio"
+                                        name="pertanyaanB<?= $input; ?>" id="pilihan" value="1">
                                 </td>
                                 <td>
-                                    <input class="form-check-input" type="radio" name="pertanyaanB<?= $input; ?>"
-                                        id="pilihan" value="2">
+                                    <input class="form-check-input border border-secondary" type="radio"
+                                        name="pertanyaanB<?= $input; ?>" id="pilihan" value="2">
                                 </td>
                                 <td>
-                                    <input class="form-check-input" type="radio" name="pertanyaanB<?= $input; ?>"
-                                        id="pilihan" value="3">
+                                    <input class="form-check-input border border-secondary" type="radio"
+                                        name="pertanyaanB<?= $input; ?>" id="pilihan" value="3">
                                 </td>
                                 <td>
-                                    <input class="form-check-input" type="radio" name="pertanyaanB<?= $input; ?>"
-                                        id="pilihan" value="4">
+                                    <input class="form-check-input border border-secondary" type="radio"
+                                        name="pertanyaanB<?= $input; ?>" id="pilihan" value="4">
+                                </td>
+                                <td>
+                                    <a href="#" class="save"
+                                        save-id=<?= $id_jenis . "|" . $id_judul . "|" . $newRows['id_pertanyaan'] ?>
+                                        data-row=<?= $input; ?>>SIMPAN</a>
                                 </td>
                             </tr>
 
                             <?php
+                                        $class++;
                                         $input++;
                                         $no++;
                                     }
@@ -147,6 +160,38 @@ $(document).ready(function() {
             })
         } else {
             alert(data);
+        }
+    });
+
+    $('.save').on('click', function(e) {
+        let attribut = $(this).attr('save-id');
+        let row = $(this).attr('data-row');
+        let pisah = attribut.split("|");
+
+        // mengambil value presepsi
+        let selectedValueA = $('input[name="pertanyaanA' + row + '"]:checked').val();
+        // mengambil value harapan
+        let selectedValueB = $('input[name="pertanyaanB' + row + '"]:checked').val();
+
+        if (selectedValueA == 'undifined' || selectedValueB == 'undifined') {
+            alert("pilih dulu Gaes");
+        } else {
+            $.post('USER/tambah.php', {
+                jenis_id: pisah[0],
+                judul_id: pisah[1],
+                pertanyaan_id: pisah[2],
+                presepsi: selectedValueA,
+                harapan: selectedValueB,
+            }, function(respon) {
+                let pecah = respon.split("|");
+                Swal.fire({
+                    position: 'center',
+                    icon: pecah[0],
+                    title: pecah[1],
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            })
         }
     })
 
