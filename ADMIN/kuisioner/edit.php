@@ -1,7 +1,7 @@
 <?php
-include '../koneksi.php';
+include '../../koneksi.php';
 $id = $_POST['id'];
-$data = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM tb_kuisioner WHERE id_kuisioner = '$id'"));
+$data = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM tb_judul WHERE id_judul = '$id'"));
 
 ?>
 
@@ -9,7 +9,7 @@ $data = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM tb_kuisioner WH
     <div class="mb-3">
         <label for="exampleInputText1" class="form-label">Judul</label>
         <input type="text" class="form-control" id="exampleInputText1" name="judul" value="<?= $data['judul'] ?>">
-        <input type="hidden" class="form-control" id="exampleInputText1" name="id" value="<?= $data['id_kuisioner'] ?>">
+        <input type="hidden" class="form-control" id="exampleInputText1" name="id" value="<?= $data['id_judul'] ?>">
     </div>
     <div class="mb-3">
         <label for="exampleInputText2" class="form-label">Lokasi</label>
@@ -48,10 +48,11 @@ $data = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM tb_kuisioner WH
                     $('#modalShow').modal('hide');
                     var pecah = respon.split('|');
                     Swal.fire({
+                        position: 'center',
                         icon: pecah[0],
-                        title: pecah[2],
-                        text: pecah[1],
-                        footer: 'File Latihan'
+                        title: pecah[1],
+                        showConfirmButton: false,
+                        timer: 1500
                     });
                     $('#menu-kuisioner').load('kuisioner/index.php');
                 })

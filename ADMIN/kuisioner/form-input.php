@@ -8,7 +8,7 @@
     <div class="mb-3">
         <label for="exampleInputText2" class="form-label">Lokasi</label>
         <input type="text" class="form-control lokasi" id="exampleInputText2" name="lokasi">
-        <input type="hidden" class="status" id="exampleInputText2" name="status" value="tidakAktif">
+        <input type="hidden" class="status" id="exampleInputText2" name="status" value="0">
     </div>
     <div class="mb-3">
         <label for="exampleInputText3" class="form-label">Tahun</label>
@@ -42,20 +42,22 @@
                 let data = $(this).serialize();
                 $.post('kuisioner/proses-input.php', 'simpan=&' + data, function(respon) {
                     var pecah = respon.split('|');
-
+                    Swal.fire({
+                        position: 'center',
+                        icon: pecah[0],
+                        title: pecah[1],
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    $('#modalShow').modal('hide');
                     if (pecah[0] == "success") {
-                        $('#modalTittle').html(pecah[1] + '-' + pecah[2]);
-                        $('.btn-close').remove();
-                        let id = pecah[1];
+                        let id = pecah[2];
                         $.post(
-                            'kuisioner/form-2.php', {
+                            'kuisioner/pertanyaan/pertanyaan.php', {
                                 id: id,
-                                data: data,
                             },
                             function(respon) {
-                                $('#bdModalKuisioner').html(respon);
-                                $('#headerModal').removeClass();
-                                $('#headerModal').addClass('modal-header bg-custom text-white')
+                                $('#menu-kuisioner').html(respon);
                             }
                         );
                     }
@@ -64,10 +66,12 @@
             } else {
 
                 Swal.fire({
-                    position: 'top',
+                    position: 'center',
                     icon: 'error',
-                    text: 'Silahkan Lengkapi Form',
-                });
+                    title: 'Silahkan Lengkapi Form',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
                 $('.name').addClass('border border-danger ');
                 $('.lokasi').addClass('border border-danger ');
                 $('.form-select').addClass('border border-danger');
