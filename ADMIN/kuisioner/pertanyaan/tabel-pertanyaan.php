@@ -9,7 +9,7 @@ if ($jumlah_tabel > 0) {
         $data = mysqli_fetch_assoc($result);
         $jenis_quisioner = $data['jenis_kuisioner'];
         $id_quisioner = $data['id_jenisKuisioner'];
-        $result2 = mysqli_query($koneksi, "SELECT * FROM `tb_pertanyaan` WHERE judul_id = '$id' AND jenisKuisioner_id = '$id_quisioner'");
+        $result2 = mysqli_query($koneksi, "SELECT * FROM `tb_pertanyaan` WHERE judul_id = '$id' AND jenisKuisioner_id = '$id_quisioner' ORDER BY item_pertanyaan ASC");
 ?>
         <table class="table table-bordered">
 
@@ -21,7 +21,7 @@ if ($jumlah_tabel > 0) {
             <tr>
                 <th>#</th>
                 <th>Pertanyaan</th>
-                <th>Opsi</th>
+                <th colspan="1">Opsi</th>
             </tr>
             <tbody>
                 <?php
@@ -29,7 +29,7 @@ if ($jumlah_tabel > 0) {
                 while ($query_pertanyaan = mysqli_fetch_assoc($result2)) {
                     echo "<td>" . $jumlah++ . "</td>";
                     echo "<td>" . $query_pertanyaan['item_pertanyaan'] . "</td>";
-                    echo "<td><a class='edit' edit-id='$query_pertanyaan[id_pertanyaan]' href='#' role='button'><i class='bi bi-pencil-square'></i></a> | <a class='hapus' hapus-id='$query_pertanyaan[id_pertanyaan]' href='#'><i class='bi bi-trash'></a></td></tr>";
+                    echo "<td class='text-center'><a class='edit' edit-id='$query_pertanyaan[id_pertanyaan]' href='#' role='button'><i class='bi bi-pencil-square'></i></a> | <a class='hapus' hapus-id='$query_pertanyaan[id_pertanyaan]' href='#'><i class='bi bi-trash'></a></td></tr>";
                 }
                 ?>
 

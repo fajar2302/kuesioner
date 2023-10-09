@@ -63,7 +63,7 @@ if (isset($_POST['edit'])) {
                             <input type="text" class="form-control" id="pertanyaan" name="pertanyaan" value="<?= $pertanyaan ?>">
                         </div>
                         <div class="d-grid col-6 mx-auto">
-                            <button class="btn" type="submit" name="simpan2">Save</button>
+                            <button class="btn btn-success" type="submit" name="simpan2">Save</button>
                         </div>
                     </form>
                 </div>

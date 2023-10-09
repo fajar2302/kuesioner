@@ -11,6 +11,7 @@
   cursor: pointer;
 }
 
+
 @media (min-width: 992px) {
   body {
     overflow: auto !important;

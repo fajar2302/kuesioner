@@ -1,20 +1,191 @@
-<section class="my-4 py-4" id="user">
-    <div class="container my-5">
-        <div class="section-title">
-            <h4 class="text-center text-uppercase">daftar kuesioner</h4>
-            <hr>
-        </div>
-        <div class="card my-4 py-4">
-            <div id="tabel" class="card-body">
+<?php
+include '../koneksi.php';
+session_start();
+
+
+$id = $_SESSION['id'];
+$cek = mysqli_query($koneksi, "SELECT * FROM tb_user WHERE username = '$id'");
+if (mysqli_num_rows($cek) > 0) {
+    $query = mysqli_fetch_assoc($cek);
+    $nama = $query['nama'];
+} else {
+    header("Location: ../login/login.php");
+}
+?>
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../css/bootstrap-5.1.3-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="library/bootstrap-icon.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+
+    <!-- link Jquery 3.6.4 -->
+    <script src="../library/jquery-3.6.4.min.js"></script>
+
+    <!-- link icon bootstrap -->
+    <link rel="stylesheet" href="../library/bootstrap-icon.css">
+
+    <!-- link Sweet Allert -->
+    <script src="../library/sweetAllert2.min.js"></script>
+
+    <title>Pengolahan Data</title>
+    <style>
+    #user .btn {
+        background-color: #0c3c53 !important;
+        color: white;
+    }
+
+    #user .btn:hover {
+        background-color: #0c3c53 !important;
+        color: white;
+    }
+
+    .bg-custom {
+        background-color: #0c3c53 !important
+    }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- =========== HEADER ============ -->
+    <header id="header">
+        <nav class="navbar navbar-expand-lg fixed-top navbar-dark" style="background-color: #0c3c53 !important;">
+            <div class="container">
+                <a class="navbar-brand" href="#">Kuesioner App</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse mx-auto" id="navbarNavAltMarkup">
+                    <div class="navbar-nav ms-auto">
+                        <a class="nav-link" href="index.php">Home</a>
+                        <a class="nav-link" id="kuis" href="#">Kuesioner</a>
+                        <!-- <a class="nav-link" id="kuis" href="#">Daftar Kuis</a> -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle"></i> Profile
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#"><span class="me-2">
+                                            <i class="bi bi-person-lines-fill"></i></span><?= $nama ?></a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider" />
+                                </li>
+                                <li><a class="dropdown-item" href="../login/logout.php"><span class="me-2"><i
+                                                class="bi bi-box-arrow-right"></i></span>Keluar</a></li>
+                            </ul>
+                        </li>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <!-- ============ MAIN ============ -->
+    <main id="main-page">
+
+        <!-- ============ HERO ============ -->
+        <section id="hero">
+            <div class="container my-5">
+                <h4 class="text text-center pb-4">PENGUKURAN KUALITAS LAYANAN</h4>
+                <p class="text pt-4 mt-4  text-center">"Pengalaman Unggul dengan ServQual & AHP: Kualitas Layanan yang
+                    Terukur dan
+                    Ditingkatkan!"</p>
+            </div>
+            <div class="d-grid col-2 mx-auto text">
+                <button id="btn-kuis" type="button" class="btn btn-primary btn-lg">Lihat Kuesioner</button>
+            </div>
+        </section>
+
+
+        <!-- =========== FEATURES =========== -->
+        <section class="my-5 py-4" id="features">
+            <div class="container pt-2">
+                <div class="section-title">
+                    <h4 class="fw-bold text-center">FEATURES</h4>
+                </div>
+                <div class="row mt-4 pt-4">
+                    <div class="col-5 text-center">
+                        <img src="../assets/picture/features.png" alt="" width="400" height="300">
+                    </div>
+                    <div class="col-7">
+                        <p class="fs-5 text-center py-5 my-3">Fitur yang disediakan oleh aplikasi pengukuran
+                            kualitas
+                            layanan menggunakan ServQual dan AHP memungkinkan peneliti dan responden untuk melihat hasil
+                            pengolahan data secara visual melalui grafik dan data yang menggunakan metode ServQual dan
+                            AHP. Dengan fitur ini, proses evaluasi kualitas layanan menjadi lebih mudah dipahami dan
+                            memberikan wawasan yang lebih mendalam bagi pengguna aplikasi.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== ABOUT =========== -->
+        <section class="" id="about">
+            <div class="container">
+                <div class="section-title">
+                    <h4 class=" fw-bold text-center">ABOUT</h4>
+                </div>
+                <div class="row my-4 py-4">
+                    <div class="col-7">
+                        <p class="py-5 fs-5 text-center">Aplikasi ini bertujuan memberikan bantuan kepada para
+                            peneliti
+                            dalam mengolah data kuesioner dengan menggunakan metode Service Quality dan Analytical
+                            Hierarchy
+                            Process. Dengan aplikasi ini, proses pengolahan data menjadi lebih efisien dan hasilnya
+                            dapat
+                            segera dipantau dan dievaluasi. Ini dapat meningkatkan efektivitas penelitian dan
+                            membantu para
+                            peneliti dalam mengambil keputusan berdasarkan analisis data yang akurat dan cepat.</p>
+                    </div>
+                    <div class="col-5 text-center">
+                        <img src="../assets/picture/about.png" alt="" width="400" height="300">
+                    </div>
+                </div>
 
             </div>
-        </div>
-    </div>
+        </section>
 
-</section>
 
-<script>
+    </main>
+
+    <footer>
+
+    </footer>
+
+
+
+
+
+    <script src="../css/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
+    <script>
     $(document).ready(function() {
-        $('#tabel').load('USER/tabel.php');
+        $('#btn-kuis').on('click', function(e) {
+            e.preventDefault();
+            $('#main-page').load('kuesioner-page.php');
+        });
+        $('#kuis').on('click', function(e) {
+            e.preventDefault();
+            $('#main-page').load('kuesioner-page.php');
+        });
     })
-</script>
+    </script>
+
+</body>
+
+</html>

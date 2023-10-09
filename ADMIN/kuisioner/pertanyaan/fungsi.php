@@ -9,6 +9,7 @@ if (isset($_POST['simpan2'])) {
     $jenkus = $_POST['jenis_kuisioner'];
     $pertanyaan = $_POST['pertanyaan'];
     $id_judul = $_POST['judul-id'];
+    $waktu = date('Y-m-d H:i:s');
     // echo "erorr|" . $id . "";
     if (empty($id)) {
         // program percobaan
@@ -18,7 +19,7 @@ if (isset($_POST['simpan2'])) {
             $queryCek = mysqli_query($koneksi, $cekId);
             $result = mysqli_num_rows($queryCek);
         } while ($result > 0);
-        $query = mysqli_query($koneksi, "INSERT INTO `tb_pertanyaan`(`id_pertanyaan`, `judul_id`, `jenisKuisioner_id`, `item_pertanyaan`) VALUES ('$id_acak','$id_judul','$jenkus','$pertanyaan')");
+        $query = mysqli_query($koneksi, "INSERT INTO `tb_pertanyaan`(`id_pertanyaan`, `judul_id`, `jenisKuisioner_id`, `item_pertanyaan`, `waktu`) VALUES ('$id_acak','$id_judul','$jenkus','$pertanyaan','$waktu')");
         if ($query) {
             echo "success|Data berhasil ditambahkan";
         } else {

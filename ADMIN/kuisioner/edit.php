@@ -34,7 +34,7 @@ $data = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM tb_judul WHERE 
         </select>
     </div>
     <div class="d-grid col-6 mx-auto">
-        <button class="btn" type="submit" name="ubah">SIMPAN</button>
+        <button class="btn add-button" type="submit" name="ubah">SIMPAN</button>
     </div>
 
     <script>
@@ -54,7 +54,7 @@ $data = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM tb_judul WHERE 
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    $('#menu-kuisioner').load('kuisioner/index.php');
+                    $('#menu').load('kuisioner/index.php');
                 })
             })
         })

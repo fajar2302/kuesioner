@@ -21,7 +21,21 @@
     <script src="library/sweetAllert2.min.js"></script>
 
     <title>Pengolahan Data</title>
+    <style>
+        #user .btn {
+            background-color: #0c3c53 !important;
+            color: white;
+        }
 
+        #user .btn:hover {
+            background-color: #0c3c53 !important;
+            color: white;
+        }
+
+        .bg-custom {
+            background-color: #0c3c53 !important
+        }
+    </style>
 
 </head>
 
@@ -31,7 +45,7 @@
     <header id="header">
         <nav class="navbar navbar-expand-lg fixed-top navbar-dark" style="background-color: #0c3c53 !important;">
             <div class="container">
-                <a class="navbar-brand" href="#">Kuesioner.</a>
+                <a class="navbar-brand" href="#">Kuesioner App.</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -43,7 +57,8 @@
                         <a class="nav-link" href="index.html">Home</a>
                         <a class="nav-link" href="#features">Features</a>
                         <a class="nav-link" href="#about">About</a>
-                        <a class="nav-link" id="kuis" href="#">Daftar Kuis</a>
+                        <!-- <a class="nav-link" id="kuis" href="#">Daftar Kuis</a> -->
+                        <a class="nav-link" href="login/login.php">Login</a>
                     </div>
                 </div>
             </div>
@@ -72,14 +87,15 @@
         <section class="my-5 py-4" id="features">
             <div class="container pt-2">
                 <div class="section-title">
-                    <h4 class="text-center">FEATURES</h4>
+                    <h4 class="fw-bold text-center">FEATURES</h4>
                 </div>
                 <div class="row mt-4 pt-4">
                     <div class="col-5 text-center">
                         <img src="assets/picture/features.png" alt="" width="400" height="300">
                     </div>
                     <div class="col-7">
-                        <p class="text-center py-5 my-3">Fitur yang disediakan oleh aplikasi pengukuran kualitas
+                        <p class="fs-5 text-center py-5 my-3">Fitur yang disediakan oleh aplikasi pengukuran
+                            kualitas
                             layanan menggunakan ServQual dan AHP memungkinkan peneliti dan responden untuk melihat hasil
                             pengolahan data secara visual melalui grafik dan data yang menggunakan metode ServQual dan
                             AHP. Dengan fitur ini, proses evaluasi kualitas layanan menjadi lebih mudah dipahami dan
@@ -93,11 +109,11 @@
         <section class="" id="about">
             <div class="container">
                 <div class="section-title">
-                    <h4 class="text-center">ABOUT</h4>
+                    <h4 class=" fw-bold text-center">ABOUT</h4>
                 </div>
                 <div class="row my-4 py-4">
                     <div class="col-7">
-                        <p class="py-5 text-center">Aplikasi ini bertujuan memberikan bantuan kepada para
+                        <p class="py-5 fs-5 text-center">Aplikasi ini bertujuan memberikan bantuan kepada para
                             peneliti
                             dalam mengolah data kuesioner dengan menggunakan metode Service Quality dan Analytical
                             Hierarchy
@@ -131,11 +147,7 @@
         $(document).ready(function () {
             $('#btn-kuis').on('click', function (e) {
                 e.preventDefault();
-                $('#main-page').load('USER/index.php');
-            });
-            $('#kuis').on('click', function (e) {
-                e.preventDefault();
-                $('#main-page').load('USER/index.php');
+                window.location.href = 'login/login.php';
             });
         })
     </script>

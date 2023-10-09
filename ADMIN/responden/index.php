@@ -1,65 +1,75 @@
 <?php
-require '../../koneksi.php';
+include '../../koneksi.php';
 
-$result = mysqli_query($koneksi, "SELECT * FROM `tb_judul`");
+$result = mysqli_query($koneksi, "SELECT * FROM `tb_user` WHERE roles = 'responden'");
 
 if (mysqli_num_rows($result) > 0) {
 ?>
-    <table class="table table-bordered">
+    <section class="responden">
+        <div class="row mx-2">
+            <div class="col-md-12 fw-bold fs-3 text-uppercase">Responden</div>
+        </div>
+        <div class="mt-4">
+            <hr class="dropdown-divider" />
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-bordered">
 
-        <thead class="table-dark">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Judul Kuisioner</th>
-                <th scope="col">Tahun</th>
-                <th scope="col">Lokasi</th>
-                <th scope="col">Opsi</th>
-                <th scope="col">Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            $jumlah = 1;
-            while ($query_kuisioner = mysqli_fetch_assoc($result)) {
-                if ($query_kuisioner['status'] == 'true') {
-                    $status = 'checked';
-                } else {
-                    $status = '';
-                }
-            ?>
-                <tr>
-                    <td><?= $jumlah++; ?></td>
-                    <td><a class="open text-decoration-none text-black" open-id="<?= $query_kuisioner['id_judul'] . "|" . $query_kuisioner['judul']; ?>" href="#"><?= $query_kuisioner['judul']; ?></a>
-                    </td>
-                    <td><?= $query_kuisioner['tahun']; ?></td>
-                    <td><?= $query_kuisioner['lokasi']; ?></td>
-                    <td><a class="info" info-id="<?= $query_kuisioner['id_judul']; ?>" href="#">
-                            <button class="btn btn-primary">
-                                <i class="bi bi-info-circle"></i>
-                            </button>
-                        </a>
-                        <a class="edit" edit-id="<?= $query_kuisioner['id_judul'] . " |" . $query_kuisioner['judul']; ?>" href="#" role="button">
-                            <button class="btn btn-success">
-                                <i class="bi bi-pencil-square"></i>
-                            </button>
-                        </a>
-                        <a class="hapus" hapus-id="<?= $query_kuisioner['id_judul']; ?>" href="#">
-                            <button class="btn btn-danger">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </a>
-                    </td>
-                    <td>
-                        <div class="form-check text-center form-switch">
-                            <input class="form-check-input" type="checkbox" status-id=<?= $query_kuisioner['id_judul']; ?> name="status" role="switch" id="flexSwitchCheckChecked" value="<?= $query_kuisioner['status'] ?>" <?= $status; ?>>
-                        </div>
-                    </td>
-                </tr>
-            <?php
-            }
-            ?>
-        </tbody>
-    </table>
+                    <thead class="table-dark">
+                        <tr class="text-center">
+                            <th scope="col">#</th>
+                            <th scope="col">Nama Responden</th>
+                            <th scope="col">Jenis Kelamin</th>
+                            <th scope="col">Umur</th>
+                            <th scope="col">Nomor Hp</th>
+                            <th scope="col">Alamat</th>
+                            <th scope="col">Kuesioner Yang Di Isi</th>
+                            <th scope="col">Opsi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $jumlah = 1;
+                        while ($query_kuisioner = mysqli_fetch_assoc($result)) {
+                            $id_user = $query_kuisioner['username'];
+                            $nama = $query_kuisioner['nama'];
+                            $baru = str_replace(" ", "", $nama);
+                            $teks_nonkapital = strtolower($baru);
+                            $enkrip = $teks_nonkapital . "_" . $id_user;
+                            $jumlahBaris = '';
+
+                            $queryCheck = mysqli_query($koneksi, "SELECT * FROM $enkrip GROUP BY judul_id");
+                            $ambilBaris = mysqli_num_rows($queryCheck);
+                            if ($ambilBaris > 0) {
+                                $jumlahBaris = $ambilBaris;
+                            } else {
+                                $jumlahBaris = 0;
+                            }
+                        ?>
+                            <tr class="text-center">
+                                <td><?= $jumlah++; ?></td>
+                                <td><?= $nama; ?></td>
+                                <td class="text-capitalize"><?= $query_kuisioner['jenis_kelamin']; ?></td>
+                                <td><?= $query_kuisioner['umur']; ?></td>
+                                <td><?= $query_kuisioner['no_hp']; ?></td>
+                                <td><?= $query_kuisioner['alamat']; ?></td>
+                                <td><?= $jumlahBaris; ?></td>
+                                <td><a class="info" info-id=<?= $id_user; ?> href="#">
+                                        <button class="btn btn-primary">
+                                            <i class="bi bi-info-circle"></i>
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
 
 <?php
 
@@ -116,7 +126,6 @@ if (mysqli_num_rows($result) > 0) {
             // alert('bisa');
             let data = $(this).attr('info-id');
             $('#modalShow').modal('show');
-            $('#modalTittle').html('Kuesioner Info');
             $.post('kuisioner/info.php', {
                 id: data,
             }, function(respon) {
@@ -130,30 +139,17 @@ if (mysqli_num_rows($result) > 0) {
         $('.hapus').on('click', function(e) {
             e.preventDefault();
             var id = $(this).attr('hapus-id');
-            Swal.fire({
-                title: 'Yakin Ingin Menghapus?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.post('kuisioner/proses-input.php', 'hapus=' + id, function(respon) {
-                        var pecah = respon.split('|');
-                        $('#load-tabel').load('kuisioner/tabel.php');
-                        Swal.fire({
-                            position: 'center',
-                            icon: pecah[0],
-                            title: pecah[1],
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                    })
-                }
+            $.post('kuisioner/proses-input.php', 'hapus=' + id, function(respon) {
+                var pecah = respon.split('|');
+                $('#load-tabel').load('kuisioner/tabel.php');
+                Swal.fire({
+                    position: 'center',
+                    icon: pecah[0],
+                    title: pecah[1],
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             })
-
-
         })
 
         // fungsi ketika klik edit
@@ -202,7 +198,6 @@ if (mysqli_num_rows($result) > 0) {
                         status: formStatus,
                     }, function(respon) {
                         let pecah = respon.split('|');
-                        $('#menu').load('kuisioner/index.php');
                         Swal.fire({
                             position: 'center',
                             icon: pecah[0],
@@ -210,6 +205,7 @@ if (mysqli_num_rows($result) > 0) {
                             showConfirmButton: false,
                             timer: 1500
                         });
+                        $('#menu-kuisioner').load('kuisioner/index.php');
                     })
                 }
             })

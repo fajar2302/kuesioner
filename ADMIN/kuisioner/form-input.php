@@ -25,7 +25,7 @@
         </select>
     </div>
     <div class="d-grid col-6 mx-auto">
-        <button class="btn" type="submit" name="simpan">SIMPAN</button>
+        <button class="btn add-button" type="submit" name="simpan">SIMPAN</button>
     </div>
 </form>
 <script>
@@ -57,7 +57,7 @@
                                 id: id,
                             },
                             function(respon) {
-                                $('#menu-kuisioner').html(respon);
+                                $('#menu').html(respon);
                             }
                         );
                     }
